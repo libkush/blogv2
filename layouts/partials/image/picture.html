@@ -1,0 +1,103 @@
+{{- $page := .page -}}
+{{- $src := "" -}}
+{{- with .src }}
+    {{- $src = printf "%s" . -}}
+{{- end -}}
+{{- $alt := .alt -}}
+{{- $title := .title -}}
+{{- $loading := or .loading "lazy" -}}
+{{- $fetchpriority := .fetchpriority -}}
+{{- $decoding := or .decoding "async" -}}
+{{- $class := .class -}}
+{{- $ariaDescribedby := .ariaDescribedby -}}
+{{- $resource := .resource -}}
+{{- $resolvedSrc := $src -}}
+
+{{- if and (not $resource) $page $src -}}
+    {{- $u := urls.Parse $src -}}
+    {{- $name := path.Base $u.Path -}}
+    {{- if and $name (ne $name ".") (ne $name "/") -}}
+        {{- with or ($page.Resources.GetMatch $name) ($page.Resources.GetMatch (printf "**/%s" $name)) -}}
+            {{- $resource = . -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if and (not $resource) $src -}}
+    {{- $u := urls.Parse $src -}}
+    {{- if not $u.IsAbs -}}
+        {{- $path := strings.TrimPrefix "./" $u.Path -}}
+        {{- $path = strings.TrimPrefix "/" $path -}}
+
+        {{- with $page -}}
+            {{- with or (.Resources.GetMatch $path) (.Resources.Get $path) -}}
+                {{- $resource = . -}}
+            {{- end -}}
+        {{- end -}}
+
+        {{- if not $resource -}}
+            {{- with or (resources.GetMatch $path) (resources.Get $path) -}}
+                {{- $resource = . -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if $resource -}}
+    {{- $resolvedSrc = $resource.RelPermalink -}}
+{{- end -}}
+
+{{- $avif := "" -}}
+{{- $webp := "" -}}
+{{- if and $resource (eq $resource.ResourceType "image") -}}
+    {{- $subType := lower $resource.MediaType.SubType -}}
+    {{- $processable := in (slice "jpeg" "jpg" "png" "tiff" "bmp" "gif" "webp") $subType -}}
+    {{- if $processable -}}
+        {{- with try ($resource.Resize (printf "%dx%d avif" $resource.Width $resource.Height)) -}}
+            {{- with .Value -}}
+                {{- if gt (len .Content) 0 -}}
+                    {{- $avif = . -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+        {{- with try ($resource.Resize (printf "%dx%d webp" $resource.Width $resource.Height)) -}}
+            {{- with .Value -}}
+                {{- if gt (len .Content) 0 -}}
+                    {{- $webp = . -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if or $avif $webp -}}
+<picture>
+    {{- with $avif }}
+    <source srcset="{{ .RelPermalink }}" type="{{ .MediaType.Type }}">
+    {{- end }}
+    {{- with $webp }}
+    <source srcset="{{ .RelPermalink }}" type="{{ .MediaType.Type }}">
+    {{- end }}
+    <img src="{{ $resolvedSrc | safeURL }}"
+        alt="{{ with $alt }}{{ . }}{{ end }}"
+        {{- with $title }} title="{{ . }}"{{ end }}
+        {{- with $class }} class="{{ . }}"{{ end }}
+        {{- with $ariaDescribedby }} aria-describedby="{{ . }}"{{ end }}
+        {{- with $loading }} loading="{{ . }}"{{ end }}
+        {{- with $fetchpriority }} fetchpriority="{{ . }}"{{ end }}
+        decoding="{{ $decoding }}"
+        {{- if and $resource (reflect.IsImageResourceWithMeta $resource) }} width="{{ $resource.Width }}" height="{{ $resource.Height }}"{{ end }}
+        >
+</picture>
+{{- else -}}
+<img src="{{ $resolvedSrc | safeURL }}"
+    alt="{{ with $alt }}{{ . }}{{ end }}"
+    {{- with $title }} title="{{ . }}"{{ end }}
+    {{- with $class }} class="{{ . }}"{{ end }}
+    {{- with $ariaDescribedby }} aria-describedby="{{ . }}"{{ end }}
+    {{- with $loading }} loading="{{ . }}"{{ end }}
+    {{- with $fetchpriority }} fetchpriority="{{ . }}"{{ end }}
+    decoding="{{ $decoding }}"
+    {{- if and $resource (reflect.IsImageResourceWithMeta $resource) }} width="{{ $resource.Width }}" height="{{ $resource.Height }}"{{ end }}
+    >
+{{- end -}}

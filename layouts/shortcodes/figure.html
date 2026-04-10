@@ -1,0 +1,111 @@
+{{- $type := .Get "type" }}
+{{- $figID := print "fig-" .Page.File.UniqueID "-" .Ordinal }}
+{{- $src := or (.Get "src") (.Get 0) }}
+{{- $alt := .Get "alt" }}
+{{- $resource := "" }}
+{{- if eq $src "cover" }}
+    {{- with $.Page.Resources.GetMatch "cover.*" -}}
+        {{- $resource = . -}}
+        {{- $src = .RelPermalink -}}
+    {{- else -}}
+        {{- $src = partial "page/cover.html" (dict "page" $.Page ) -}}
+    {{- end -}}
+
+    {{- $coverAlt := or $.Page.Params.Alt $.Page.Params.coverAlt $.Page.Params.imagesAlt }}
+    {{- if and $coverAlt (not $alt) }}
+        {{- $alt = $coverAlt -}}
+    {{- end }}
+{{- end }}
+
+{{- $caption := .Get "caption" }}
+{{- if eq $caption "alt" }}
+    {{- $caption = $alt -}}
+{{- end }}
+
+{{- $title := .Get "title" -}}
+{{- $attr := or (.Get "attribution") (.Get "credit") (.Get "attr") -}}
+{{- $attrlink := or (.Get "attributionlink") (.Get "creditlink") (.Get "attrlink") -}}
+{{- $hasCaption := or $title $caption $attr -}}
+{{- $attrText := "" -}}
+{{- $attrInline := "" -}}
+{{- if $attr -}}
+    {{- if $attrlink -}}
+        {{- $attrText = $attr | plainify -}}
+    {{- else -}}
+        {{- $attrInline = $.Page.RenderString (dict "display" "inline") $attr -}}
+    {{- end -}}
+{{- end -}}
+{{- $ariaDescribedby := "" -}}
+{{- if $hasCaption -}}
+    {{- $ariaDescribedby = $figID -}}
+{{- end -}}
+
+{{- if not (eq $type "margin") }}
+    {{- if eq $type "full" }}<figure class="fullwidth">
+    {{- else }}<figure {{ with .Get "class" }} class="{{ . }}"{{ end }}>
+    {{- end }}
+{{- end }}
+
+{{- if eq $type "full" }}
+    {{- with .Get "link" }}<a href="{{ . }}" class="has-img">{{ end }}
+        {{- partial "image/picture.html" (dict
+            "page" $.Page
+            "resource" $resource
+            "src" $src
+            "alt" $alt
+            "title" $alt
+            "ariaDescribedby" $ariaDescribedby
+            "loading" "lazy"
+        ) -}}
+    {{- if .Get "link" }}</a>{{ end }}
+    {{- if $hasCaption }}
+    <figcaption id="{{ $figID }}">
+        {{ with $title }}<strong>{{ . }} </strong>{{ end }}
+        {{ with $caption }}{{ . }}{{ end }}
+        {{ if or $attrText $attrInline }} <span class="fig-attribution">({{- if $attrlink -}}<a href="{{ $attrlink }}">{{ $attrText }}</a>{{- else -}}{{ $attrInline }}{{- end -}})</span>{{ end }}
+    </figcaption>
+    {{- end }}
+{{- else if eq $type "margin" }}
+    <input id="{{ $figID }}" class="marginpar-ctrl" type="checkbox" aria-controls="the-{{ $figID }}" hidden>
+    <label for="{{ $figID }}"></label>
+    <span id="the-{{ $figID }}" class="marginpar">
+    {{- with .Get "link" }}<a href="{{ . }}" class="has-img">
+    {{- end }}
+        {{- partial "image/picture.html" (dict
+            "page" $.Page
+            "resource" $resource
+            "src" $src
+            "alt" $alt
+            "title" $alt
+            "ariaDescribedby" $ariaDescribedby
+            "loading" "lazy"
+        ) -}}
+    {{- if .Get "link" }}</a>{{ end }}
+    {{ with $title }}<strong>{{ . }} </strong>{{ end }}
+    {{ with $caption }}{{ . }}{{ end }}
+    {{ if or $attrText $attrInline }} <span class="fig-attribution">({{- if $attrlink -}}<a href="{{ $attrlink }}">{{ $attrText }}</a>{{- else -}}{{ $attrInline }}{{- end -}})</span>{{ end }}
+    </span>
+{{- else }}
+    {{ with .Get "link" }}<a href="{{ . }}" class="has-img">{{ end }}
+        {{- partial "image/picture.html" (dict
+            "page" $.Page
+            "resource" $resource
+            "src" $src
+            "alt" $alt
+            "title" $alt
+            "ariaDescribedby" $ariaDescribedby
+            "loading" "lazy"
+        ) -}}
+    {{- if .Get "link" }}</a>{{ end }}
+    {{- if $hasCaption }}
+    <figcaption id="{{ $figID }}">
+        {{ with $title }}<strong>{{ . }} </strong>{{ end }}
+        {{ with $caption }}{{ . }}{{ end }}
+        {{ if or $attrText $attrInline }} <span class="fig-attribution">({{- if $attrlink -}}<a href="{{ $attrlink }}">{{ $attrText }}</a>{{- else -}}{{ $attrInline }}{{- end -}})</span>{{ end }}
+    </figcaption>
+    {{- end }}
+{{- end }}
+
+{{- if not (eq $type "margin") }}
+    </figure>
+{{- end }}

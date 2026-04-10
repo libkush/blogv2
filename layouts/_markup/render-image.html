@@ -1,0 +1,8 @@
+{{- $page := or .PageInner .Page -}}
+{{- partial "image/picture.html" (dict
+    "page" $page
+    "src" .Destination
+    "alt" (.Text | plainify)
+    "title" .Title
+    "loading" "lazy"
+) -}}

@@ -1,0 +1,106 @@
+#to-top::before {
+    font-family: 'base-ui' !important;
+}
+
+nav.author ul {
+    align-items: center;
+    overflow-y: hidden;
+    scrollbar-width: none;
+}
+
+nav.author ul::-webkit-scrollbar {
+    display: none;
+}
+
+nav.author ul li {
+    margin: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    #index .hero__image img {
+        filter: grayscale(1) saturate(0.15);
+        transition: filter 260ms ease;
+    }
+
+    #index .hero__image:hover img {
+        filter: grayscale(0) saturate(1);
+    }
+}
+
+nav.author a[href*="matrix.to"] .icon {
+    display: inline-block;
+    width: 0.95em;
+    height: 0.95em;
+    font-size: 0;
+    line-height: 1;
+    vertical-align: -0.1em;
+    background-color: var(--off);
+    -webkit-mask: url('/icons/matrix.svg') center / contain no-repeat;
+    mask: url('/icons/matrix.svg') center / contain no-repeat;
+}
+
+nav.author a[href*="matrix.to"]:hover .icon,
+nav.author a[href*="matrix.to"]:focus .icon {
+    background-color: var(--ac);
+}
+
+/* Keep logotype legible while logo link is focused/active. */
+#logo a:focus #logotype__text,
+#logo a:active #logotype__text,
+#logo a:focus-visible #logotype__text {
+    fill: var(--off);
+    stroke: var(--off);
+    stroke-width: 1px;
+}
+
+/* Keep display math aligned with article measure and avoid overflow bleed. */
+.katex-display {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+#main-article .content > .katex-display {
+    margin: 0.618pc 0;
+    width: var(--golden-ratio);
+}
+
+/* Match block math size with surrounding prose. */
+#main-article .content .katex-display > .katex {
+    font-size: 1em;
+}
+
+/* Keep inline math the same optical size as surrounding prose. */
+#main-article .content :not(.katex-display) > .katex {
+    font-size: 1em;
+    line-height: inherit;
+}
+
+/* Keep content subheadings on the same reading measure as body text. */
+#main-article .content > h2,
+#main-article .content > h3,
+#main-article .content > h4,
+#main-article .content > h5,
+#main-article .content > section > h2,
+#main-article .content > section > h3,
+#main-article .content > section > h4,
+#main-article .content > section > h5 {
+    width: var(--golden-ratio);
+}
+
+/* Keep shortcode quote attribution compact and readable. */
+blockquote.shortcode-blockquote > footer {
+    margin-top: 0.618pc;
+    color: var(--off);
+    font-size: var(--small);
+    text-indent: 0;
+}
+
+blockquote.shortcode-blockquote > footer::before {
+    content: '\2014\00A0';
+}
+
+blockquote.shortcode-blockquote .shortcode-blockquote__cite,
+blockquote.shortcode-blockquote .shortcode-blockquote__cite a {
+    color: inherit;
+}

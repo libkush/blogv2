@@ -1,0 +1,89 @@
+baseURL = "https://kush.in/"
+languageCode = "en-US"
+title = "Kush's Blog"
+theme = "hugo-foxx"
+enableRobotsTXT = true
+
+[sitemap]
+	changefreq = "always"
+
+[taxonomies]
+	tag = "tags"
+	category = "categories"
+	series = "series"
+	stage = "stage"
+	author = "author"
+
+[menu]
+	[[menu.main]]
+		identifier = "about"
+		name = "About"
+		pageRef = "/about"
+		weight = 1
+
+	[[menu.main]]
+		identifier = "notes"
+		name = "Notes"
+		pageRef = "/note"
+		weight = 2
+
+	[[menu.main]]
+		identifier = "posts"
+		name = "Posts"
+		pageRef = "/post"
+		weight = 3
+
+	[[menu.main]]
+		identifier = "articles"
+		name = "Articles"
+		pageRef = "/article"
+		weight = 4
+
+	[[menu.kush]]
+		identifier = "github"
+		url = "https://github.com/libkush"
+		pre = "github"
+		weight = 1
+	[[menu.kush]]
+		identifier = "linkedin"
+		url = "https://www.linkedin.com/in/libkush/"
+		pre = "linkedin"
+		weight = 2
+	[[menu.kush]]
+		identifier = "email"
+		url = "mailto:kush@kush.in"
+		pre = "email"
+		weight = 3
+
+[params]
+	subtitle = "Notes, ideas, and experiments"
+	description = "Kush's digital vignettes"
+	AllowAIRobots = true
+	disableAuthorMenu = false
+
+	[params.author]
+		name = "Kush"
+
+	[params.comments]
+		disabled = true
+
+	[params.logo]
+		logoType = true
+
+	[params.posts]
+		disableCard = false
+
+	[params.typeface]
+		minimalUI = false
+		webSafe = false
+
+	[params.search]
+		pagefind = false
+		fallback = "duckduckgo"
+
+	[params.favicon]
+		ico = "/favicon.ico"
+		apple = "/favicon/apple-touch-icon.png"
+		png = "/favicon/favicon-96x96.png"
+		svg = "/favicon/favicon.svg"
+		webmanifest = "/favicon/site.webmanifest"

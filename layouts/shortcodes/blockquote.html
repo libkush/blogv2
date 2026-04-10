@@ -1,0 +1,19 @@
+{{- $author := .Get "author" -}}
+{{- $cite := .Get "cite" -}}
+{{- $citeLink := or (.Get "citelink") (.Get "citeLink") (.Get "cite_link") (.Get "link") -}}
+{{- $hasAttribution := or $author $cite -}}
+
+<blockquote class="shortcode-blockquote">
+{{ .Inner | markdownify }}
+{{- if $hasAttribution }}
+    <footer>
+        {{- with $author -}}
+            <span class="shortcode-blockquote__author">{{ . }}</span>
+        {{- end -}}
+        {{- with $cite -}}
+            {{- if $author }}<span class="shortcode-blockquote__sep">, </span>{{ end -}}
+            <cite class="shortcode-blockquote__cite">{{ if $citeLink }}<a href="{{ $citeLink }}">{{ . }}</a>{{ else }}{{ . }}{{ end }}</cite>
+        {{- end -}}
+    </footer>
+{{- end }}
+</blockquote>

@@ -1,0 +1,12 @@
+{{- $slides := where .Site.RegularPages "Type" "slide" }}
+<strong>{{ i18n "onThisPage" }} <a href="#" id="hash">#</a></strong>
+<ul>
+    <li><a href="#feed">All Posts</a></li>
+    <li><a href="#taxonomy">Explore Taxonomies</a></li>
+    {{- with $slides }}
+        {{- range $index, $slide := . }}
+            {{- $slideNum := add $index 1 }}
+            <li><a href="#slide-{{ $slideNum }}">{{ .Title }}</a></li>
+        {{- end }}
+    {{- end }}
+</ul>
