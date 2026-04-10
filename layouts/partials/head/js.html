@@ -1,0 +1,10 @@
+{{- with resources.Get "js/hugo-foxx.js" }}
+    {{- $compiled := resources.ExecuteAsTemplate "hugo-foxx.js" $ . | minify }}
+    {{- if eq hugo.Environment "development" }}
+        <script src="{{ $compiled.Permalink }}" defer></script>
+    {{- else }}
+        {{- with $compiled | fingerprint "sha256" }}
+            <script src="{{ .Permalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" defer></script>
+        {{- end }}
+    {{- end }}
+{{- end }}

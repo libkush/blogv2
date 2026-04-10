@@ -1,0 +1,51 @@
+{{- $icon := resources.Get "css/hugo-foxx/icon.css" }}
+{{- if site.Params.typeface.minimalUI }}
+    {{- $icon = resources.Get "css/hugo-foxx/icon-minimal.css" }}
+{{- end }}
+
+{{- $style := slice
+    $icon
+    (resources.Get "css/hugo-foxx/colorscheme.css")
+    (resources.Get "css/hugo-foxx/keyframe.css")
+    (resources.Get "css/hugo-foxx/main.css")
+    (resources.Get "css/hugo-foxx/list.css")
+    (resources.Get "css/hugo-foxx/marginpar.css")
+    (resources.Get "css/hugo-foxx/codefences.css")
+}}
+
+{{- if not site.Params.typeface.webSafe }}
+    <link rel="preconnect" href="https://fonts.bunny.net" />
+    <link rel="preload" href="https://fonts.bunny.net/amiri/files/amiri-latin-400-normal.woff2" as="font" type="font/woff" crossorigin="anonymous" />
+    {{- $style = $style | append (resources.Get "css/hugo-foxx/crimson.css") (resources.Get "css/hugo-foxx/inconsolata.css") }}
+{{- end }}
+
+{{- if or site.Params.fediverse.instance site.Params.fediverse.host site.Params.fediverse.username site.Params.fediverse.user }}
+    {{- $style = $style | append (resources.Get "css/hugo-foxx/fediscuss.css") }}
+{{- end }}
+
+{{- if site.Params.logo.logoType }}
+    {{- $style = $style | append (resources.Get "css/hugo-foxx/logotype.css") }}
+{{- else if site.Params.logo.logoMark }}
+    {{- $style = $style | append (resources.Get "css/hugo-foxx/logomark.css") }}
+{{- end }}
+
+{{- if not site.Params.posts.disableCard }}
+    {{- $style = $style | append (resources.Get "css/hugo-foxx/card.css") }}
+    {{- $hasStage := partial "head/css/has-taxonomy.html" (dict "taxonomy" "stage") }}
+    {{- if $hasStage }}
+        {{- $style = $style | append (resources.Get "css/hugo-foxx/garden.css") }}
+    {{- end }}
+{{- end }}
+
+{{- $style = $style | append (resources.Get "css/hugo-foxx/media.css") (resources.Get "css/hugo-foxx/custom.css") }}
+{{- $hugoFoxx := resources.Concat "hugo-foxx.css" $style }}
+{{- with $hugoFoxx }}
+    {{- $compiled := resources.ExecuteAsTemplate "hugo-foxx.css" $ . | minify }}
+    {{- if eq hugo.Environment "development" }}
+        <link rel="stylesheet" href="{{ $compiled.Permalink }}">
+    {{- else }}
+        {{- with $compiled | fingerprint "sha256" }}
+            <link rel="stylesheet" href="{{ .Permalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+        {{- end }}
+    {{- end }}
+{{- end }}
