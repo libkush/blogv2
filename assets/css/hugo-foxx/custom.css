@@ -53,6 +53,25 @@ nav.author a[href*="matrix.to"]:focus .icon {
     stroke-width: 1px;
 }
 
+#logo .logo__handwriting-shell {
+    display: inline-flex;
+    align-items: center;
+}
+
+#logo .logo__handwriting {
+    display: block;
+    width: auto;
+    object-fit: contain;
+    max-width: min(70vw, 18rem);
+}
+
+#logo a:focus .logo__handwriting,
+#logo a:active .logo__handwriting,
+#logo a:focus-visible .logo__handwriting {
+    outline: 0;
+    filter: drop-shadow(0 0 0.35rem color-mix(in srgb, var(--fg) 22%, transparent));
+}
+
 /* Keep display math aligned with article measure and avoid overflow bleed. */
 .katex-display {
     max-width: 100%;

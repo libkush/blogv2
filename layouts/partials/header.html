@@ -48,6 +48,10 @@
     {{- $logoMark := site.Params.logo.logoMark }}
     {{- $logoType := site.Params.logo.logoType }}
     {{- $logoInlineCSS := site.Params.logo.logoInlineCSS }}
+    {{- $handwritingStatic := site.Params.logo.handwritingStatic }}
+    {{- $handwritingAnimated := site.Params.logo.handwritingAnimated }}
+    {{- $handwritingWidth := or site.Params.logo.handwritingWidth 853 }}
+    {{- $handwritingHeight := or site.Params.logo.handwritingHeight 479 }}
     {{- $siteTitle := or site.Title site.Params.Title }}
     {{- if or $logoType $logoMark $logoInlineCSS }}
     <div id="logo">
@@ -58,7 +62,22 @@
             {{- if or $logoMark $logoInlineCSS }}
                 <img id="logomark" {{ with $logoMark }}src="{{ . }}"{{ end }} alt="{{ $siteTitle }}" />
             {{- end }}
-            {{- if or $logoType (not (or $logoMark $logoInlineCSS)) }}
+            {{- if $handwritingStatic }}
+                <span class="logo__handwriting-shell" data-logo-mode="static">
+                    <img
+                        id="logo-handwriting"
+                        class="logo__handwriting"
+                        src="{{ $handwritingStatic }}"
+                        {{ with $handwritingAnimated }}data-animated-src="{{ . }}"{{ end }}
+                        alt=""
+                        width="{{ $handwritingWidth }}"
+                        height="{{ $handwritingHeight }}"
+                        loading="eager"
+                        fetchpriority="high"
+                        decoding="async"
+                    />
+                </span>
+            {{- else if or $logoType (not (or $logoMark $logoInlineCSS)) }}
                 {{- $siteTitle := or site.Title site.Params.Title }}
                 {{- with $siteTitle -}}
                     {{- $estimatedWidth := printf "%dpt" (mul (len . ) 28) -}}
@@ -69,5 +88,56 @@
             {{- end }}
         </a>
     </div>
+    {{- if and $handwritingStatic $handwritingAnimated }}
+        <script>
+            (() => {
+                const logo = document.getElementById('logo-handwriting');
+                if (!logo || !logo.dataset.animatedSrc) {
+                    return;
+                }
+
+                const wrapper = logo.closest('.logo__handwriting-shell');
+                const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                const isSlowConnection = () => {
+                    if (!connection) {
+                        return false;
+                    }
+
+                    return Boolean(connection.saveData)
+                        || ['slow-2g', '2g'].includes(connection.effectiveType)
+                        || (typeof connection.downlink === 'number' && connection.downlink < 1.5);
+                };
+
+                if (isSlowConnection()) {
+                    return;
+                }
+
+                const animatedSrc = logo.dataset.animatedSrc;
+                const preloader = new Image();
+                let settled = false;
+                const finish = shouldUpgrade => {
+                    if (settled) {
+                        return;
+                    }
+
+                    settled = true;
+                    window.clearTimeout(timeoutId);
+
+                    if (shouldUpgrade) {
+                        logo.src = animatedSrc;
+                        wrapper?.setAttribute('data-logo-mode', 'animated');
+                    } else {
+                        preloader.src = '';
+                    }
+                };
+                const timeoutId = window.setTimeout(() => finish(false), 1500);
+
+                preloader.decoding = 'async';
+                preloader.onload = () => finish(true);
+                preloader.onerror = () => finish(false);
+                preloader.src = animatedSrc;
+            })();
+        </script>
+    {{- end }}
     {{- end }}
 {{- end }}

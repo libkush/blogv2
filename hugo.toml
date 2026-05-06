@@ -69,6 +69,10 @@ enableRobotsTXT = true
 
 	[params.logo]
 		logoType = true
+		handwritingStatic = "/logo/kush-handwriting-static.webp"
+		handwritingAnimated = "/logo/kush-handwriting-animated.webp"
+		handwritingWidth = 853
+		handwritingHeight = 479
 
 	[params.posts]
 		disableCard = false
