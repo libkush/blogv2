@@ -252,3 +252,39 @@ blockquote.shortcode-blockquote .shortcode-blockquote__cite a {
     font-style: normal;
     text-align: right;
 }
+/* Heading anchor links */
+
+.content .heading-anchor {
+    margin-inline-start: 0.4em;
+    color: var(--mid);
+    font-size: 0.6em;
+    font-weight: 400;
+    line-height: 1;
+    opacity: 0.35;
+    border-bottom: 0;
+    transition: opacity 127ms, color 127ms;
+}
+
+.content .heading-anchor:hover,
+.content .heading-anchor:focus-visible {
+    color: var(--ac);
+    border-bottom: 0;
+    opacity: 1;
+}
+
+/* The theme appends an external-link icon to every content link. */
+.content .heading-anchor::after {
+    content: none;
+}
+
+@media (hover: none) {
+    .content .heading-anchor {
+        opacity: 0.5;
+    }
+}
+
+@media print {
+    .content .heading-anchor {
+        display: none;
+    }
+}

@@ -1,0 +1,7 @@
+{{- $level := .Level -}}
+{{- $anchor := .Anchor -}}
+<h{{ $level }} id="{{ $anchor }}"
+    {{- range $key, $value := .Attributes }}{{ if ne $key "id" }} {{ $key }}="{{ $value }}"{{ end }}{{ end -}}>
+    {{- .Text -}}
+    <a class="heading-anchor" href="#{{ $anchor }}" aria-label="{{ printf "Link to section: %s" .PlainText }}"><span aria-hidden="true">#</span></a>
+</h{{ $level }}>
