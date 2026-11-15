@@ -1,5 +1,4 @@
 +++
-author = ["Kush"]
 title = "Moments Are Not Shared in Pixels"
 subtitle = "Words Do the Magic"
 date = "2024-10-23"

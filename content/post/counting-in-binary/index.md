@@ -1,5 +1,4 @@
 +++
-author = ["Kush"]
 title = "Counting in Binary"
 date = "2024-08-01"
 description = "I feel like a lot of students are introduced to binary numbers in an algorithmic way to convert them into decimal and vice-versa without proper intuition of the binary system. Binary numbers don't feel like natural counting, but rather a mysterious encoding that magically works like encryption. This post will try to fix that."

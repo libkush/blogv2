@@ -1,5 +1,4 @@
 +++
-author = ["Kush"]
 title = "Bleed Skholē With a Thousand Cuts"
 subtitle = "A critique of Indian STEM education"
 date = "2024-06-18"

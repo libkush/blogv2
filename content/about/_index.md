@@ -2,18 +2,14 @@
 title = "About"
 +++
 
-I am Kush Patel, a student and builder from India.
+I am Kush Patel. A developer, computer geek and currently a student based in India.
 
-If you have read [The Chronicles of Kush.in](/post/the-chronicles-of-kushdotin/), you already know this site has been rebuilt multiple times. It started as a teenage Jekyll experiment, moved through a SvelteKit phase full of ambitious animations and constant dependency updates, and eventually landed here.
+I am generally not very good at self-introduction so I will keep this brief.
 
-This is the latest iteration, built with [Hugo](https://gohugo.io/) and the [hugo-foxx theme](https://github.com/foxihd/hugo-foxx/). The goal is the same as always: keep things fast, readable, and focused on writing rather than framework churn.
+I have been working on various programming projects since I was 15 years old (during the coronavirus lockdowns).
 
-I (will) use this space for:
+Over the years, I finished several [projects](/#slide-1).
 
-- notes from things I am learning
-- long-form essays on technology and creativity
-- occasional project logs, field notes, and experiments
+I enjoy sysadmin stuff, self-hosting infrastructure and tinkering with servers. Interestingly, that is how all of this began.
 
-Outside the blog, I build full-stack projects, run self-hosted infrastructure, and spend more time than I should refining developer workflows.
-
-If something here resonates with you, feel free to reach out.
+Here, I have posted some interesting thoughts I had in the past, and will try to follow-up with more notes, experiments, and longer write-ups later.

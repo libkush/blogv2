@@ -1,5 +1,4 @@
 +++
-author = ["Kush"]
 title = "How Hard Can It Possibly Be?"
 date = "2026-07-26"
 description = "How hard can self hosting an email server possibly be?"

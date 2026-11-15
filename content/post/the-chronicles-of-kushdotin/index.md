@@ -1,5 +1,4 @@
 +++
-author = ["Kush"]
 title = "The Chronicles of Kush.in"
 date = "2024-07-06"
 description = "This is the history of my blog. This blog has gone through several overhauls since I began writing in 2022. It is time I share the journey of how this blog came to be what it is right now, and some of the reasons behind major overhauls."

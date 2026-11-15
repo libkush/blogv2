@@ -1,5 +1,4 @@
 +++
-author = ["Kush"]
 title = "The Tech Startup Hype Is Hurting India"
 date = "2023-10-12"
 description = "India's tech startup hype is causing more harm than good. Youth is encouraged to build useless startups over important futuristic technologies, and is beginning to assume startup as an alternative to rigorous education. This article shows a few examples of such useless and fraudulent startups."

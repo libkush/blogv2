@@ -1,0 +1,34 @@
+{{- define "main" }}
+
+{{- if eq .Params.type (or "post" "articles") }}
+<header>
+    {{- $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
+    {{- $dateHuman := .Date | time.Format ":date_long" }}
+    <time datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
+</header>
+{{- end }}
+
+<article id="main-article" role="document" data-pagefind-body>
+    {{- partial "page/title.html" . }}
+
+    {{- partial "page/audio.html" . }}
+
+    <div id="content" class="content">
+    {{ .Content }}
+    </div>
+
+    {{- with .Params.tags }}
+        <footer>
+            <nav id="keywords" aria-label="{{ i18n "tags" }}">
+                <span>{{ printf "%s:" (i18n "tags" (len . ))}}&nbsp;</span>
+                {{ $class := cond (eq (len .) 1) "inline" "delimiter" }}
+                {{ partial "terms.html" (dict "taxonomy" "tags" "class" $class "page" $) }}
+            </nav>
+        </footer>
+    {{- end }}
+{{- if not site.Params.comments.disabled -}}
+    {{ partial "fediscuss.html" . }}
+{{- end }}
+
+</article>
+{{- end }}

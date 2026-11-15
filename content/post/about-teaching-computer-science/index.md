@@ -1,5 +1,4 @@
 +++
-author = ["Kush"]
 title = "About Teaching Computer Science"
 date = "2023-06-25"
 description = "Important takeaway from Grant Sanderson's talk on Math's pedagogical curse and prospects for the future of this blog for Computer Science based on it."

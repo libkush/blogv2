@@ -1,20 +1,13 @@
 {{- define "main" }}
     {{- $home := .IsHome }}
     {{- $isFeedSection := and (eq .Kind "section") (in (slice "post" "note" "article") .Section) }}
-    {{- if not $home }}
-        {{ partial "hero.html" . }}
-    {{- end }}
-{{- if and .IsHome site.Taxonomies }}
-        <hr class="hide">
-        <section id="taxonomy" {{ if $home }}class="target"{{ end }}>
-            <h1>{{ i18n "allTaxonomies" }} <a href="#" class="hash">#</a></h1>
-            {{ template "taxonomy" . }}
-        </section>
-        <hr class="hide">
+    {{ partial "hero.html" . }}
+    {{- if $home }}
+        {{ partial "slide.html" . }}
     {{- end }}
     {{- if or .IsHome .Data.Pages $isFeedSection }}
         {{- if ne .Kind "taxonomy" }}
-            <section id="feed" {{ if $home }}class="target"{{ end }}>
+            <section id="feed">
                 {{- $title := .LinkTitle }}
                 {{- if .IsHome }}
                     <h1>{{- i18n "allPosts" }} <a href="#" class="hash">#</a></h1>
@@ -43,12 +36,6 @@
                 </div>
             {{- end }}
         {{- end }}
-    {{- end }}
-    {{- if $home }}
-        {{ partial "slide.html" . }}
-        <section class="target">
-            {{ partial "hero.html" . }}
-        </section>
     {{- end }}
 {{- end }}
 
@@ -193,7 +180,7 @@
     {{- with $slides }}
         {{- range $index, $slide := . }}
             {{- $slideNum := add $index 1 }}
-            <section id="slide-{{ $slideNum }}" class="target"
+            <section id="slide-{{ $slideNum }}"
                 aria-labelledby="slide-{{ $slideNum }}-heading">
                 {{- $hasCover := partial "page/cover.html" (dict "page" .Page) }}
                 {{- $alt := or .Page.Params.Alt .Page.Params.coverAlt .Page.Params.imagesAlt }}
@@ -268,14 +255,13 @@
     {{- $slides := where .Site.RegularPages "Type" "slide" }}
         <strong>{{ i18n "onThisPage" }} <a href="#" id="hash">#</a></strong>
         <ul>
-            <li><a href="#feed">{{ i18n "allPosts" }}</a></li>
-            <li><a href="#taxonomy">{{ i18n "allTaxonomies" }}</a></li>
             {{- with $slides }}
                 {{- range $index, $slide := . }}
                     {{- $slideNum := add $index 1 }}
                     <li><a href="#slide-{{ $slideNum }}">{{ .Title }}</a></li>
                 {{ end }}
             {{ end }}
+            <li><a href="#feed">{{ i18n "allPosts" }}</a></li>
         </ul>
 {{- end }}
 

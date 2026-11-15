@@ -28,18 +28,13 @@
 </nav>
 {{- end }}
 
-{{- if and (not site.Params.disableAuthorMenu ) (ne .Kind "term") (ne .Data.Singular "author") }}
+{{- if not site.Params.disableAuthorMenu }}
     {{ partialCached "header/author-menu.html" . }}
 {{- end }}
 
 {{- define "partials/header/author-menu.html" -}}
-    {{- with site.Taxonomies.author }}
-        {{- if eq 1 (len . ) }}
-            {{- range . }}
-                {{- $author := urlize .Page.LinkTitle }}
-                {{- partial "menu.html" (dict "menuID" $author "type" "author" "open" "open" "page" $ )}}
-            {{- end }}
-        {{- end }}
+    {{- with index site.Menus "kush" }}
+        {{- partial "menu.html" (dict "menuID" "kush" "type" "author" "open" "open" "page" $ )}}
     {{- end }}
 {{- end }}
 

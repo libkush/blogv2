@@ -1,3 +1,80 @@
+/* Libron webfont, see https://github.com/nicoverbruggen/libron (OFL). */
+@font-face {
+    font-family: 'Libron';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('{{ site.BaseURL }}fonts/libron/Libron-Regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Libron';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('{{ site.BaseURL }}fonts/libron/Libron-Italic.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Libron';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('{{ site.BaseURL }}fonts/libron/Libron-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Libron';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url('{{ site.BaseURL }}fonts/libron/Libron-BoldItalic.woff2') format('woff2');
+}
+
+:root {
+    --rm: 'Libron';
+    --normalsize: 1.2rem;
+}
+
+/* Use Libron for prose only; math, code and UI icons keep their own fonts.
+   Hyphenation is off so words wrap whole instead of being split at the end
+   of a line. */
+body {
+    font-family: 'Libron', 'Crimson', 'Amiri', 'Times New Roman', serif;
+    -webkit-hyphens: manual;
+       -moz-hyphens: manual;
+            hyphens: manual;
+}
+
+/* Draw link underlines with text-decoration so they sit just under the
+   baseline instead of at the bottom of the font's content box. */
+a,
+nav details summary {
+    border-bottom: 0;
+    text-decoration: none;
+}
+
+a:hover,
+a:focus,
+nav details > summary:hover,
+nav details > summary:focus {
+    text-decoration-line: underline;
+    text-decoration-color: var(--ac);
+    text-decoration-thickness: 1.5pt;
+    text-underline-offset: 0.12em;
+    text-decoration-skip-ink: auto;
+}
+
+/* These links deliberately have no underline on hover. */
+#logo a,
+#logo a:hover,
+#logo a:focus,
+body > footer > a,
+body > footer > a:hover,
+body > footer > a:focus {
+    text-decoration: none;
+}
+
 #to-top::before {
     font-family: 'base-ui' !important;
 }

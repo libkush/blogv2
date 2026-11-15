@@ -1,5 +1,4 @@
 +++
-author = ["Kush"]
 title = "We Should Read More RFCs"
 date = "2026-05-09"
 description = "Have you ever thought about how limited your imagination is? What we think is 'original' is never really novel, or out of this world. It is just an amalgamation of existing ideas in your head arranged in a novel way."
