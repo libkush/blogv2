@@ -161,14 +161,23 @@ nav.author a[href*="matrix.to"]:focus .icon {
     width: var(--golden-ratio);
 }
 
+/* Libron's x-height is 0.531em, against Inconsolata's 0.457em. The theme sets
+   code at .85em, which leaves it at about 73% of the prose x-height; 1.16em
+   restores the same optical size for inline code and code fences. */
+kbd,
+code,
+pre > code {
+    font-size: 1.16em;
+}
+
 /* Match block math size with surrounding prose. */
 #main-article .content .katex-display > .katex {
-    font-size: 1em;
+    font-size: 1.2em;
 }
 
 /* Keep inline math the same optical size as surrounding prose. */
 #main-article .content :not(.katex-display) > .katex {
-    font-size: 1em;
+    font-size: 1.2em;
     line-height: inherit;
 }
 
@@ -199,4 +208,47 @@ blockquote.shortcode-blockquote > footer::before {
 blockquote.shortcode-blockquote .shortcode-blockquote__cite,
 blockquote.shortcode-blockquote .shortcode-blockquote__cite a {
     color: inherit;
+}
+
+/* Epigraphs are quotations, opening or closing a piece: full content width
+   (prose plus the margin-note column), italic and a size down, with a rule
+   that suits where they sit. */
+.epigraph {
+    clear: both;
+    width: 100%;
+    margin: 2.618rem 0;
+    padding: 0;
+    font-size: var(--small);
+    font-style: italic;
+    line-height: 1.5;
+    text-indent: 0;
+}
+
+.epigraph blockquote {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* An opening quotation leads into the text that follows: left rule. */
+#main-article .content > .epigraph:first-child {
+    margin-top: 0;
+    padding-left: 1.618rem;
+    border-left: 2pt solid var(--ac);
+}
+
+/* Any other epigraph sets itself off from the text above it: top rule. */
+#main-article .content > .epigraph:not(:first-child) {
+    padding-top: 1.618rem;
+    border-top: 1pt solid var(--ac);
+}
+
+#main-article .content > .epigraph:last-child {
+    margin-bottom: 0;
+}
+
+.epigraph footer {
+    margin-top: 0.618rem;
+    font-style: normal;
+    text-align: right;
 }

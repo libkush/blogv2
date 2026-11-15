@@ -1,0 +1,70 @@
+{{- define "main" }}
+{{- $scenes := site.Data.scenes }}
+{{- $fallback := index (shuffle $scenes) 0 }}
+<section id="not-found">
+    <h1>404</h1>
+    <p id="not-found-message">
+        Hi traveler, seems like you're lost. Enjoy
+        <span id="not-found-scene-description">{{ $fallback.description }}</span>
+        in the meanwhile.
+    </p>
+    <ascii-art
+        id="not-found-art"
+        piece="{{ $fallback.name }}"
+        label="{{ $fallback.description }}"
+        style="width: 100%"
+    >{{ $fallback.description }}</ascii-art>
+    <p id="not-found-credit">
+        ASCII art by <a href="https://ascii.rest">ascii.rest</a>.
+    </p>
+    <p id="not-found-home">
+        Or head back to <a href="{{ site.Home.RelPermalink }}">the homepage</a>.
+    </p>
+    <script type="module" src="https://ascii.rest/ascii.js"></script>
+    <script>
+        (function () {
+            var scenes = {{ $scenes | jsonify | safeJS }};
+            var scene = scenes[Math.floor(Math.random() * scenes.length)];
+            var art = document.getElementById("not-found-art");
+            var description = document.getElementById("not-found-scene-description");
+            if (!scene || !art) return;
+            art.setAttribute("piece", scene.name);
+            art.setAttribute("label", scene.description);
+            art.textContent = scene.description;
+            if (description) description.textContent = scene.description;
+        })();
+    </script>
+</section>
+<style>
+    #not-found {
+        max-width: 44rem;
+        margin: 8vh auto 0;
+    }
+    #not-found h1 {
+        margin: 0;
+        color: var(--ac);
+        font-size: var(--Huge);
+        font-variant-caps: all-small-caps;
+        letter-spacing: 0.08em;
+        line-height: 1;
+    }
+    #not-found-message {
+        max-width: var(--golden-ratio);
+        margin: 1.5rem 0 2rem;
+        font-size: var(--large);
+    }
+    #not-found-art {
+        display: block;
+        margin: 0;
+    }
+    #not-found-credit {
+        margin: 2rem 0 0;
+        color: var(--mid);
+        font-size: var(--footnotesize);
+    }
+    #not-found-home {
+        margin-top: 0.618rem;
+        color: var(--mid);
+    }
+</style>
+{{- end }}
