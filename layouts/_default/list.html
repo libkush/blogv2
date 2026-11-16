@@ -41,12 +41,14 @@
 
 {{- define "feed" -}}
     {{- $active := eq (or .Params.Sitemap.ChangeFreq .Sitemap.ChangeFreq | lower) (or "always" "hourly" "daily" "weekly") }}
-    {{- $descending := or (not .IsHome) (eq $.Data.Plural "series") $.Params.descending }}
+    {{- /* Hugo returns page collections newest-first, so only reverse them when
+           chronological order is wanted: series terms, or `ascending = true`. */ -}}
+    {{- $ascending := or (eq .Data.Plural "series") .Params.ascending }}
     {{- $pages := .RegularPages }}
     {{- if $.Params.Recursive }}
         {{- $pages = .RegularPagesRecursive }}
     {{- else if .IsHome }}
-        {{- $pages =  where site.RegularPages "Type" "in" (slice "post" "notes" "articles") }}
+        {{- $pages = where site.RegularPages "Type" "in" (slice "post" "note" "article") }}
     {{- end }}
     {{- if not $pages }}
         <center style="margin: 1in 0;">
@@ -64,7 +66,7 @@
         </center>
     {{- end }}
     {{- $yearGroup := $pages.GroupByDate "2006" }}
-    {{- if $descending }}
+    {{- if $ascending }}
         {{- $yearGroup = $yearGroup.Reverse }}
     {{- end }}
     {{- range $yearGroup }}
@@ -73,7 +75,7 @@
         <strong id="y{{ $year }}" role="heading" aria-level="1">{{ $year }}</strong>
         <div role="list" aria-label="{{ $year }}">
             {{- $monthGroup := .Pages.GroupByDate "January" }}
-            {{- if $descending }}
+            {{- if $ascending }}
                 {{ $monthGroup = $monthGroup.Reverse }}
             {{ end }}
             {{- range $monthGroup }}
@@ -86,7 +88,7 @@
                         {{- $month }}
                     </summary>
                     {{- $pageGroup := .Pages }}
-                    {{- if $descending }}
+                    {{- if $ascending }}
                         {{- $pageGroup = $pageGroup.Reverse }}
                     {{- end }}
                     {{- with $pageGroup }}
